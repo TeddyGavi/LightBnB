@@ -92,7 +92,6 @@ const getAllReservations = function(guest_id, limit = 10) {
   LIMIT $2`;
   
   const queryParams = [guest_id, limit];
-  console.log(`Reservation function logging the limit: ${limit}`);
   
   return db
     .query(sql, queryParams)
@@ -157,8 +156,6 @@ const getAllProperties = function(options, limit = 10) {
   LIMIT $${queryParams.length};
   `;
 
-  console.log(`here is the query string from get all properties: \n ${sql}`);
-  console.log(`get all properties function logging the limit: ${limit}`);
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -177,45 +174,31 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function(property) {
+  //I spoke with Bryan about this updated functionality instead of referencing the object or destructuring we simply grab the values making sure the cost per night is in cents
+  property.cost_per_night = property.cost_per_night*100;
+  const queryParams = Object.values(property);
+
   const sql = `
   INSERT INTO properties (
-    owner_id,
     title,
     description,
+    number_of_bedrooms,
+    number_of_bathrooms,
+    parking_spaces,
+    cost_per_night,
     thumbnail_photo_url,
     cover_photo_url,
-    cost_per_night,
     street,
+    country,
     city,
     province,
     post_code,
-    country,
-    parking_spaces,
-    number_of_bathrooms,
-    number_of_bedrooms
+    owner_id
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     RETURNING *;
     `;
 
-  const queryParams = [
-    property.owner_id,
-    property.title,
-    property.description,
-    property.thumbnail_photo_url,
-    property.cover_photo_url,
-    property.cost_per_night * 100,
-    property.street,
-    property.city,
-    property.province,
-    property.post_code,
-    property.country,
-    property.parking_spaces,
-    property.number_of_bathrooms,
-    property.number_of_bedrooms
-  ];
-
-  console.log(`This is the sql string from addProperty function ${sql}\n and the parameters ${queryParams}`);
   return db
     .query(sql, queryParams)
     .then((res) => {
