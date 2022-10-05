@@ -40,6 +40,7 @@
 
 ### Views
 ![ERD diagram](https://github.com/TeddyGavi/LightBnB/blob/main/LightBnB_WebApp/public/readMe-img/LightBnB%20ERD.drawio(4).png)
+![page view](https://github.com/TeddyGavi/LightBnB/blob/main/LightBnB_WebApp/public/readMe-img/res_pageview.png)
 
 ### Dependencies 
 - bcrypt
