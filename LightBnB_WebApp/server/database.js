@@ -10,10 +10,10 @@ const db = require("./db/index.js");
 const getUserWithEmail = function(email) {
   //make sure there are no trailing spaces and email is in lower case!
   let uEmail = email.toLocaleLowerCase().trim();
+  const queryParams = [uEmail];
   const sql = `SELECT id, name, email, password  
               FROM users 
               WHERE users.email = $1`;
-  const queryParams = [uEmail];
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -33,11 +33,10 @@ exports.getUserWithEmail = getUserWithEmail;
  */
 const getUserWithId = function(id) {
   //set up sql to use the entered ID
+  const queryParams = [id];
   const sql = `SELECT id, name, email, password  
               FROM users 
               WHERE users.id = $1`;
-  const queryParams = [id];
-
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -57,11 +56,10 @@ exports.getUserWithId = getUserWithId;
  */
 const addUser =  function(user) {
   //the * here auto generates a userId when returned from the query, this is needed in order to populate the database appropriately
+  const queryParams = [user.name, user.email, user.password];
   const sql = `INSERT INTO users (name, email, password) 
               VALUES ($1, $2, $3) 
               RETURNING *;`;
-  const queryParams = [user.name, user.email, user.password];
-
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -81,6 +79,7 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function(guest_id, limit = 10) {
+  const queryParams = [guest_id, limit];
   const sql = ` 
   SELECT reservations.*, properties.*, avg(rating) as average_rating
   FROM reservations
@@ -90,8 +89,6 @@ const getAllReservations = function(guest_id, limit = 10) {
   GROUP BY properties.id, reservations.id
   ORDER BY reservations.start_date
   LIMIT $2`;
-  
-  const queryParams = [guest_id, limit];
   
   return db
     .query(sql, queryParams)
@@ -132,12 +129,10 @@ const getAllProperties = function(options, limit = 10) {
     queryParams.push(options.owner_id);
     sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.owner_id = $${queryParams.length} `;
   }
-
   if (options.minimum_price_per_night) {
     queryParams.push(options.minimum_price_per_night * 100);
     sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.cost_per_night >= $${queryParams.length} `;
   }
-
   if (options.maximum_price_per_night) {
     queryParams.push(options.maximum_price_per_night * 100);
     sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.cost_per_night <= $${queryParams.length} `;
@@ -149,13 +144,11 @@ const getAllProperties = function(options, limit = 10) {
     queryParams.push(options.minimum_rating);
     sql += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
   }
-
   queryParams.push(limit);
   sql += ` 
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -174,8 +167,8 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function(property) {
-  //I spoke with Bryan about this updated functionality instead of referencing the object or destructuring we simply grab the values making sure the cost per night is in cents
-  property.cost_per_night = property.cost_per_night*100;
+  //I spoke with Bryan for help with this! Instead of referencing the object or destructuring we simply grab the values making sure the cost per night is in cents
+  property.cost_per_night = property.cost_per_night * 100;
   const queryParams = Object.values(property);
 
   const sql = `
@@ -198,7 +191,6 @@ const addProperty = function(property) {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     RETURNING *;
     `;
-
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -207,6 +199,5 @@ const addProperty = function(property) {
     .catch((err) => {
       console.log(err.message);
     });
-
 };
 exports.addProperty = addProperty;
