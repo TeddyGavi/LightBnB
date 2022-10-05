@@ -17,3 +17,8 @@
   - [x] ERDs
   - [x] Querying a database seeded with fake data
   - [x] Add SQL queries from a webApp using [node-postgres](https://node-postgres.com/)
+
+### Features
+### Future Goals
+### Views
+![ERD diagram](https://github.com/TeddyGavi/LightBnB/blob/main/LightBnB_WebApp/public/readMe-img/LightBnB%20ERD.drawio(4).png)
