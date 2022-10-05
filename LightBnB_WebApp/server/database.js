@@ -1,18 +1,5 @@
-// const properties = require('./json/properties.json');
-// const users = require('./json/users.json');
+const db = require("./db/index.js");
 
-/* const {db} = require("pg");
-
-const db = new db({
-  user: 'vagrant',
-  password: '123',
-  host: 'localhost',
-  database: "lightbnb"
-});
-
-
- */
-const db = require("./db/index.js")
 /// Users
 
 /**
@@ -105,7 +92,7 @@ const getAllReservations = function(guest_id, limit = 10) {
   LIMIT $2`;
   
   const queryParams = [guest_id, limit];
-  console.log(`Reservation function logging the limit: ${limit}`)
+  console.log(`Reservation function logging the limit: ${limit}`);
   
   return db
     .query(sql, queryParams)
@@ -128,7 +115,7 @@ exports.getAllReservations = getAllReservations;
  */
 const getAllProperties = function(options, limit = 10) {
   
-  /*  
+  /*
   set up empty array that will contain each options if they are included in the search criteria, I use a ternary op inside each if statement to determine whether or not to include ADD or WHERE, After speaking with Mentor Juliana I decided to keep it this way instead of including the WHERE in the initial SQL string and checking the length in the if statement
   */
 
@@ -149,12 +136,12 @@ const getAllProperties = function(options, limit = 10) {
 
   if (options.minimum_price_per_night) {
     queryParams.push(options.minimum_price_per_night * 100);
-    sql += `${queryParams.length > 1? `AND` : `WHERE`} properties.cost_per_night >= $${queryParams.length} `;
+    sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.cost_per_night >= $${queryParams.length} `;
   }
 
   if (options.maximum_price_per_night) {
     queryParams.push(options.maximum_price_per_night * 100);
-    sql += `${queryParams.length > 1? `AND` : `WHERE`} properties.cost_per_night <= $${queryParams.length} `;
+    sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.cost_per_night <= $${queryParams.length} `;
   }
 
   sql += `GROUP BY properties.id `;
@@ -170,8 +157,8 @@ const getAllProperties = function(options, limit = 10) {
   LIMIT $${queryParams.length};
   `;
 
-  console.log(`here is the query string from get all properties: \n ${sql}`)
-  console.log(`get all properties function logging the limit: ${limit}`)
+  console.log(`here is the query string from get all properties: \n ${sql}`);
+  console.log(`get all properties function logging the limit: ${limit}`);
   return db
     .query(sql, queryParams)
     .then((res) => {
@@ -228,7 +215,7 @@ const addProperty = function(property) {
     property.number_of_bedrooms
   ];
 
-  console.log(`This is the sql string from addProperty function ${sql}\n and the parameters ${queryParams}`)
+  console.log(`This is the sql string from addProperty function ${sql}\n and the parameters ${queryParams}`);
   return db
     .query(sql, queryParams)
     .then((res) => {
