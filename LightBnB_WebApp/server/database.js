@@ -12,7 +12,7 @@ const db = new db({
 
 
  */
-const { db } = require("./db/index.js")
+const db = require("./db/index.js")
 /// Users
 
 /**
