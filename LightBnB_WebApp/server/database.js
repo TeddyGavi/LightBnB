@@ -1,15 +1,18 @@
 // const properties = require('./json/properties.json');
 // const users = require('./json/users.json');
 
-const {Pool} = require("pg");
+/* const {db} = require("pg");
 
-const pool = new Pool({
+const db = new db({
   user: 'vagrant',
   password: '123',
   host: 'localhost',
   database: "lightbnb"
 });
 
+
+ */
+const { db } = require("./db/index.js")
 /// Users
 
 /**
@@ -24,7 +27,7 @@ const getUserWithEmail = function(email) {
               FROM users 
               WHERE users.email = $1`;
   const queryParams = [uEmail];
-  return pool
+  return db
     .query(sql, queryParams)
     .then((res) => {
       return res.rows[0];
@@ -48,7 +51,7 @@ const getUserWithId = function(id) {
               WHERE users.id = $1`;
   const queryParams = [id];
 
-  return pool
+  return db
     .query(sql, queryParams)
     .then((res) => {
       return res.rows[0];
@@ -72,7 +75,7 @@ const addUser =  function(user) {
               RETURNING *;`;
   const queryParams = [user.name, user.email, user.password];
 
-  return pool
+  return db
     .query(sql, queryParams)
     .then((res) => {
       return res.rows[0];
@@ -104,7 +107,7 @@ const getAllReservations = function(guest_id, limit = 10) {
   const queryParams = [guest_id, limit];
   console.log(`Reservation function logging the limit: ${limit}`)
   
-  return pool
+  return db
     .query(sql, queryParams)
     .then(((res) => {
       return res.rows;
@@ -169,7 +172,7 @@ const getAllProperties = function(options, limit = 10) {
 
   console.log(`here is the query string from get all properties: \n ${sql}`)
   console.log(`get all properties function logging the limit: ${limit}`)
-  return pool
+  return db
     .query(sql, queryParams)
     .then((res) => {
       return res.rows;
@@ -226,7 +229,7 @@ const addProperty = function(property) {
   ];
 
   console.log(`This is the sql string from addProperty function ${sql}\n and the parameters ${queryParams}`)
-  return pool
+  return db
     .query(sql, queryParams)
     .then((res) => {
       return res.rows;
