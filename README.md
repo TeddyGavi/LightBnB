@@ -19,6 +19,25 @@
   - [x] Add SQL queries from a webApp using [node-postgres](https://node-postgres.com/)
 
 ### Features
+- All functionality that I implemented can be viewed in the [database.js](https://github.com/TeddyGavi/LightBnB/blob/main/LightBnB_WebApp/server/database.js)
+- This involved refactoring multiple functions to query our fake database
 ### Future Goals
+- [] write HTML and SASS to:
+  - add a color palette
+  - add typography
+  - consistent formatting for all property display cards  
+- [] add a map reference to the main page
+- [] allow users and guests to write property reviews
+- [] allow owners to update rates of certain properties within a given date window
+- [] fix 404 error related to property images no loading
+
 ### Views
 ![ERD diagram](https://github.com/TeddyGavi/LightBnB/blob/main/LightBnB_WebApp/public/readMe-img/LightBnB%20ERD.drawio(4).png)
+
+### Dependencies 
+- bcrypt
+- body-parser
+- cookie-session
+- express
+- nodemon
+- pg
