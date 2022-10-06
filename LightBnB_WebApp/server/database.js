@@ -137,9 +137,8 @@ const getAllProperties = function(options, limit = 10) {
     queryParams.push(options.maximum_price_per_night * 100);
     sql += `${queryParams.length > 1 ? `AND` : `WHERE`} properties.cost_per_night <= $${queryParams.length} `;
   }
-
+//add the GROUP BY clause here before checking if the minimum rating was included
   sql += `GROUP BY properties.id `;
-
   if (options.minimum_rating) {
     queryParams.push(options.minimum_rating);
     sql += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
