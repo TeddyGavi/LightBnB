@@ -6,8 +6,9 @@
 1. Clone the repo onto your local device
 2. Install dependencies using ```npm install```
 3. Navigate to /confirm all packages are installed ```cd...```
-4. Start the server using ```npm run local```
-5. Head to http://localhost:3000/ in your web browser
+4. You will need to create a seeds folder and seed.sql file and seed data from [LHL seed data](https://raw.githubusercontent.com/lighthouse-labs/w5-sql-seeds/master/lightbnb_seeds/02_seeds.sql) following the instructions [here](https://flex-web.compass.lighthouselabs.ca/workbooks/flex-m05w12/activities/765?journey_step=42)
+5. Start the server using ```npm run local```
+6. Head to http://localhost:3000/ in your web browser
 
 [back to top](#light-bnb)
 ### Goals and Learning outcomes
